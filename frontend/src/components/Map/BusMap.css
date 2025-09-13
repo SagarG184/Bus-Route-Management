@@ -1,0 +1,728 @@
+.map-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+
+.leaflet-container {
+    width: 100%;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.bus-stop-marker {
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.3));
+    transition: transform 0.2s;
+}
+
+.bus-stop-marker:hover {
+    transform: scale(1.2);
+}
+
+/* Custom popup styles */
+.bus-stop-popup {
+    padding: 12px;
+    min-width: 200px;
+}
+
+.bus-stop-popup h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    color: #03055B;
+}
+
+.bus-stop-popup p {
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 4px 0;
+    color: #444;
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 8px !important;
+    padding: 0 !important;
+}
+
+.leaflet-popup-content {
+    margin: 0 !important;
+    padding: 12px !important;
+}
+
+.bus-popup {
+    min-width: 200px;
+}
+
+.bus-popup h3 {
+    margin: 0 0 8px 0;
+}
+
+/* Custom tooltip styles */
+.leaflet-tooltip {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.stop-tooltip {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.stop-tooltip {
+    text-align: center;
+    font-size: 14px;
+}
+
+.stop-tooltip strong {
+    color: #333;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.route-1-tooltip .leaflet-tooltip-content {
+    border-left: 4px solid #ef4444 !important;
+    padding-left: 8px;
+}
+
+.route-2-tooltip .leaflet-tooltip-content {
+    border-left: 4px solid #22c55e !important;
+    padding-left: 8px;
+}
+
+.route-3-tooltip .leaflet-tooltip-content {
+    border-left: 4px solid #3b82f6 !important;
+    padding-left: 8px;
+}
+
+.leaflet-tooltip {
+    background-color: rgba(255, 255, 255, 0.95);
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.leaflet-tooltip strong {
+    color: #333;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.route-1-tooltip .leaflet-tooltip {
+    border-left: 4px solid #ef4444;
+}
+
+.route-2-tooltip .leaflet-tooltip {
+    border-left: 4px solid #22c55e;
+}
+
+.route-3-tooltip .leaflet-tooltip {
+    border-left: 4px solid #3b82f6;
+}
+
+.route-selector {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.route-dropdown {
+    appearance: none;
+    padding: 12px 40px 12px 16px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+    min-width: 250px;
+    transition: all 0.2s ease;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+}
+
+.route-dropdown:hover {
+    border-color: #4a90e2;
+    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.1);
+    transform: translateY(-1px);
+}
+
+.route-dropdown:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+.route-dropdown option {
+    padding: 12px;
+    font-size: 14px;
+    background-color: white;
+    color: #333;
+}
+
+.route-dropdown option:hover {
+    background-color: #f5f5f5;
+}
+
+.route-details-panel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: white;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+
+.route-details-panel h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+}
+
+.route-details-panel select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    background-color: white;
+    font-size: 0.95rem;
+}
+
+.route-details-panel select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.stop-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stop-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: #f8fafc;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.stop-item:hover {
+    background-color: #f1f5f9;
+}
+
+.stop-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #334155;
+}
+
+.stop-time {
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.stop-icon.route-1 .stop-marker {
+    width: 12px;
+    height: 12px;
+    background-color: #ef4444;
+    border: 2px solid white;
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(239, 68, 68, 0.3);
+}
+
+.stop-icon.route-2 .stop-marker {
+    width: 12px;
+    height: 12px;
+    background-color: #22c55e;
+    border: 2px solid white;
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(34, 197, 94, 0.3);
+}
+
+.stop-icon.route-3 .stop-marker {
+    width: 12px;
+    height: 12px;
+    background-color: #3b82f6;
+    border: 2px solid white;
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(59, 130, 246, 0.3);
+}
+
+.route-1-marker {
+    background-color: #ef4444;
+    box-shadow: 0 0 4px rgba(239, 68, 68, 0.3);
+}
+
+.route-2-marker {
+    background-color: #22c55e;
+    box-shadow: 0 0 4px rgba(34, 197, 94, 0.3);
+}
+
+.route-3-marker {
+    background-color: #3b82f6;
+    box-shadow: 0 0 4px rgba(59, 130, 246, 0.3);
+}
+
+.leaflet-interactive.route-1-line {
+    stroke: #000000 !important;
+    stroke-opacity: 0.8;
+    stroke-width: 4;
+}
+
+.leaflet-interactive.route-2-line {
+    stroke: #22c55e !important;
+    stroke-opacity: 0.8;
+    stroke-width: 4;
+}
+
+.leaflet-interactive.route-3-line {
+    stroke: #3b82f6 !important;
+    stroke-opacity: 0.8;
+    stroke-width: 4;
+}
+
+.route-line {
+    stroke: #2196F3;
+    stroke-width: 4;
+    stroke-opacity: 0.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: all 0.3s ease;
+}
+
+.route-line:hover {
+    stroke-width: 6;
+}
+
+.custom-bus-icon {
+    font-size: 24px;
+    text-align: center;
+    line-height: 24px;
+    background: none;
+    border: none;
+    animation: bounce 1s infinite;
+}
+
+.bus-at-stop {
+    margin-left: 8px;
+    font-size: 16px;
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+/* Hide Leaflet attribution control */
+.leaflet-control-attribution {
+    display: none !important;
+}
+
+/* Enhanced tooltip for Route-1 */
+.route-1-tooltip {
+    background: white !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2) !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+}
+
+.route-1-tooltip .tooltip-content {
+    padding: 8px 12px;
+    border-left: 4px solid #ef4444;
+}
+
+/* Enhanced tooltip for Route-2 */
+.route-2-tooltip {
+    background: white !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(34, 197, 94, 0.2) !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+}
+
+.route-2-tooltip .tooltip-content {
+    padding: 8px 12px;
+    border-left: 4px solid #22c55e;
+}
+
+/* Enhanced tooltip for Route-3 */
+.route-3-tooltip {
+    background: white !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2) !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+}
+
+.route-3-tooltip .tooltip-content {
+    padding: 8px 12px;
+    border-left: 4px solid #3b82f6;
+}
+
+.tooltip-header {
+    font-weight: 600;
+    color: #ef4444;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.tooltip-time {
+    color: #666;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.tooltip-distance {
+    color: #666;
+    font-size: 12px;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.stop-marker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stop-dot {
+    width: 12px;
+    height: 12px;
+    background-color: #654321;
+    border: 2px solid white;
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.route-line {
+    stroke: #000000;
+    stroke-width: 6;
+    stroke-opacity: 0.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.route-arrow {
+    background: transparent;
+}
+
+.arrow-head {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 16px solid #4CAF50;
+    transform-origin: center;
+}
+
+.stop-tooltip {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.stop-tooltip:before {
+    display: none;
+}
+
+.leaflet-control-zoom {
+    border: none !important;
+    margin: 15px !important;
+}
+
+.leaflet-control-zoom a {
+    background-color: white !important;
+    color: #333 !important;
+    border: none !important;
+    width: 30px !important;
+    height: 30px !important;
+    line-height: 30px !important;
+    font-size: 16px !important;
+    border-radius: 4px !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+}
+
+.leaflet-control-zoom a:hover {
+    background-color: #f5f5f5 !important;
+}
+
+.leaflet-control-attribution {
+    display: none;
+}
+
+.route-selection-panel {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+}
+
+.route-selection-panel h3 {
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 16px;
+}
+
+.route-select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.route-line {
+    stroke: #1a73e8;
+    stroke-width: 4;
+    stroke-opacity: 0.8;
+    transition: all 0.3s;
+}
+
+.route-line:hover {
+    stroke-opacity: 1;
+    stroke-width: 5;
+}
+
+.stop-marker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stop-dot {
+    width: 12px;
+    height: 12px;
+    background-color: #654321;
+    border: 2px solid white;
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.stop-dot:hover {
+    transform: scale(1.2);
+    transition: transform 0.2s ease;
+}
+
+.leaflet-interactive {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke-opacity 0.2s;
+}
+
+.leaflet-interactive:hover {
+    stroke-opacity: 1 !important;
+}
+
+.leaflet-popup-content {
+    margin: 8px 12px;
+}
+
+.leaflet-popup-content h3 {
+    color: #03055B;
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.leaflet-popup-content p {
+    margin: 4px 0;
+    color: #444;
+    font-size: 14px;
+}
+
+.route-line {
+    stroke-dasharray: 10, 10;
+    animation: dash 20s linear infinite;
+    pointer-events: auto;
+}
+
+.route-line:hover {
+    opacity: 1;
+}
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: -1000;
+    }
+}
+
+.leaflet-div-icon {
+    background: transparent;
+    border: none;
+}
+
+.arrow-marker {
+    background: transparent;
+    border: none;
+}
+
+.arrow {
+    color: green;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 
+        -1px -1px 0 white,
+        1px -1px 0 white,
+        -1px 1px 0 white,
+        1px 1px 0 white;
+}
+
+.route-line {
+    stroke-dasharray: 10, 10;
+    animation: dash 20s linear infinite;
+    pointer-events: auto;
+}
+
+.route-line:hover {
+    opacity: 1;
+}
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: -1000;
+    }
+}
+
+.stop-connection {
+    stroke: #000000;
+    stroke-width: 2;
+    stroke-dasharray: 5, 5;
+}
+
+.logout-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #d32f2f;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.logout-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.login-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #45a049;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.login-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.route-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.route-description {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #666;
+    line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+    .route-selector {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        padding: 10px;
+    }
+    
+    .route-dropdown {
+        width: 100%;
+        min-width: unset;
+        padding: 10px 35px 10px 12px;
+        font-size: 14px;
+    }
+}
